@@ -1,2 +1,5 @@
 Release/Mandelbrot.*
 Debug/Mandelbrot.*
+Mandelbrot/Debug
+Mandelbrot/Release
+Mandelbrot.VC.*
