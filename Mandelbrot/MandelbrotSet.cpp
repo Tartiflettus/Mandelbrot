@@ -2,6 +2,8 @@
 #include "MandelbrotSet.h"
 #include "MandelbrotMath.h"
 
+#include <iostream> //debug
+
 
 bool MandelbrotSet::computeIter(unsigned int from, unsigned int to, std::complex<float>& point, std::complex<float> origin){
 	if (from >= to) {
@@ -32,15 +34,22 @@ MandelbrotSet::~MandelbrotSet()
 
 void MandelbrotSet::compute(unsigned int iter)
 {
+	m_img.create(m_w, m_h, sf::Color::White);
+	//std::cout << "iter : " << iter<< std::endl;
+	//std::cout << "cache : " << m_cache.getIter() << std::endl;
 	for (int i = 0; i < m_w; ++i) {
 		for (int j = 0; j < m_h; ++j) {
-			std::complex<float> p = physicalToMath(std::complex<float>(float(i), float(j)), m_w, m_h);
+			std::complex<float> origin = physicalToMath(std::complex<float>(float(i), float(j)), m_w, m_h);
+			std::complex<float> p = 0;
 			bool ok;
 			if (m_cache.getIter() <= iter) { //cache utilisable
-				ok = computeIter(m_cache.getIter(), iter, p, p);
+				p = m_cache(i, j);
+				ok = computeIter(m_cache.getIter(), iter, p, origin);
+				//std::cout << "cache : " << m_cache.getIter() << std::endl;
 			}
-			else {
-				ok = computeIter(0, iter, p, p);
+			else { //cache non utilisable
+				ok = computeIter(0, iter, p, origin);
+				//std::cout << "cache miss\n";
 			}
 			m_cache(i, j) = p;
 			if (ok) {
@@ -48,7 +57,8 @@ void MandelbrotSet::compute(unsigned int iter)
 			}
 		}
 	}
-	m_cache.setIter(iter);
+	m_cache.setIter(iter); //maj de l'itération en cache
+	m_lastIter = iter;
 
 	m_tex.loadFromImage(m_img);
 	m_sprite.setTexture(m_tex);
@@ -63,6 +73,11 @@ void MandelbrotSet::setDimension(unsigned int width)
 	if (m_cache.getWidth() != width) {
 		m_cache.resize(unsigned int(m_w), unsigned int(m_h));
 	}
+}
+
+void MandelbrotSet::nextIteration()
+{
+	compute(m_lastIter + 1);
 }
 
 

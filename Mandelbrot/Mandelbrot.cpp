@@ -8,7 +8,7 @@
 
 int main()
 {
-	MandelbrotSet set(1024, 1000);
+	MandelbrotSet set(1024, 10);
 	sf::RenderWindow window(sf::VideoMode(1024, 768), "Mandelbrot");
 
 	while (window.isOpen())
@@ -20,6 +20,16 @@ int main()
 				window.close();
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 				window.close();
+			if (event.type == sf::Event::KeyPressed) {
+				switch (event.key.code) {
+					case sf::Keyboard::Up:
+						set.nextIteration();
+						break;
+					case sf::Keyboard::Down:
+
+						break;
+				}
+			}
 		}
 
 		window.clear();

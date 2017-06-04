@@ -33,5 +33,13 @@ public:
 
 	//choisit la dimension de l'image créée
 	void setDimension(unsigned int width);
+
+	//calcule la prochaine itération
+	void nextIteration();
+
+	//renvoie la dernière itération affichée
+	unsigned int getLastIteration() const {
+		return m_lastIter;
+	}
 };
 

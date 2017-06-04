@@ -3,6 +3,7 @@
 #include <complex>
 #include <vector>
 #include <cassert>
+#include <limits>
 
 /*
 Fournit un cache pour le MandelbrotSet
@@ -19,9 +20,9 @@ private:
 	unsigned int m_iter;
 
 public:
-	MandelbrotCache() : m_valid(false) {}
+	MandelbrotCache() : m_valid(false), m_iter(std::numeric_limits<unsigned int>::max()) {}
 
-	MandelbrotCache(unsigned int w, unsigned int h): m_valid(false), m_iter(0) {
+	MandelbrotCache(unsigned int w, unsigned int h): m_valid(false), m_iter(std::numeric_limits<unsigned int>::max()) {
 		m_cont.resize(w);
 		for (int i = 0; i < w; ++i) {
 			m_cont[i].resize(h);
@@ -58,7 +59,7 @@ public:
 
 	std::complex<T>& operator()(unsigned int x, unsigned int y){
 		m_valid = true;
-		return const_cast<std::complex<T>&>( static_cast<const MandelbrotCache &>(*this)(x, y) );
+		return m_cont[x][y];
 	}
 };
 
