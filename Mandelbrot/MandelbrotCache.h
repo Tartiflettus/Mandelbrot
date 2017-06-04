@@ -16,11 +16,12 @@ class MandelbrotCache
 private:
 	Container m_cont;
 	bool m_valid;
+	unsigned int m_iter;
 
 public:
 	MandelbrotCache() : m_valid(false) {}
 
-	MandelbrotCache(unsigned int w, unsigned int h): m_valid(false) {
+	MandelbrotCache(unsigned int w, unsigned int h): m_valid(false), m_iter(0) {
 		m_cont.resize(w);
 		for (int i = 0; i < w; ++i) {
 			m_cont[i].resize(h);
@@ -29,6 +30,9 @@ public:
 
 	~MandelbrotCache(){}
 
+	unsigned int getWidth() const {
+		return m_cont.size();
+	}
 
 	void resize(unsigned int w, unsigned int h) {
 		m_valid = false;
@@ -36,6 +40,14 @@ public:
 		for (int i = 0; i < w; ++i) {
 			m_cont[i].resize(h);
 		}
+	}
+
+	void setIter(unsigned int nb) {
+		m_iter = nb;
+	}
+
+	unsigned int getIter() const {
+		return m_iter;
 	}
 
 

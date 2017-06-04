@@ -2,6 +2,7 @@
 
 #include <SFML\Graphics.hpp>
 #include <complex>
+#include "MandelbrotCache.h"
 
 /*
 Ensemble de Mandelbrot affichable à l'écran
@@ -14,6 +15,9 @@ private:
 	sf::Sprite m_sprite;
 
 	int m_w;
+	int m_h;
+	unsigned int m_lastIter;
+	MandelbrotCache<float> m_cache;
 
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -23,6 +27,9 @@ public:
 	~MandelbrotSet();
 
 	//calcule l'image à afficher
-	void compute(unsigned int width, unsigned int iter);
+	void compute(unsigned int iter);
+
+	//choisit la dimension de l'image créée
+	void setDimension(unsigned int width);
 };
 
