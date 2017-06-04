@@ -33,6 +33,9 @@
     <ClInclude Include="MandelbrotCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MandelbrotCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

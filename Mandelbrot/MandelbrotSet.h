@@ -35,7 +35,7 @@ public:
 	void setDimension(unsigned int width);
 
 	//calcule la prochaine itération
-	void nextIteration();
+	void nextIteration(int offset = 1);
 
 	//renvoie la dernière itération affichée
 	unsigned int getLastIteration() const {

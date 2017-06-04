@@ -4,11 +4,14 @@
 #include <complex>
 #include "MandelbrotSet.h"
 #include "MandelbrotMath.h"
+#include "GraphicCounter.h"
 #include <iostream>
 
 int main()
 {
-	MandelbrotSet set(1024, 10);
+	MandelbrotSet set(1024, 0);
+	GraphicCounter cnt;
+	cnt.setPosition(0, 0);
 	sf::RenderWindow window(sf::VideoMode(1024, 768), "Mandelbrot");
 
 	while (window.isOpen())
@@ -24,9 +27,11 @@ int main()
 				switch (event.key.code) {
 					case sf::Keyboard::Up:
 						set.nextIteration();
+						cnt.setCount(set.getLastIteration());
 						break;
-					case sf::Keyboard::Down:
-
+					case sf::Keyboard::Right:
+						set.nextIteration(50);
+						cnt.setCount(set.getLastIteration());
 						break;
 				}
 			}
@@ -34,6 +39,7 @@ int main()
 
 		window.clear();
 		window.draw(set);
+		window.draw(cnt);
 		window.display();
 		sf::sleep(sf::milliseconds(50));
 	}
@@ -56,8 +62,8 @@ int main()
 	assert(physicalToMath(std::complex<float>(1, 1), 2, 2) == -0.5f);
 
 
-	std::cout << "OK\n";
-	getchar();
+	//std::cout << "OK\n";
+	//getchar();
 	return 0;
 }
 

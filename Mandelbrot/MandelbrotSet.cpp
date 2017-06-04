@@ -75,9 +75,9 @@ void MandelbrotSet::setDimension(unsigned int width)
 	}
 }
 
-void MandelbrotSet::nextIteration()
+void MandelbrotSet::nextIteration(int offset)
 {
-	compute(m_lastIter + 1);
+	compute(m_lastIter + offset);
 }
 
 
