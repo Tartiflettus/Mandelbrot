@@ -13,12 +13,27 @@ Indique si le point est dans l'ensemble
 T : sous-type de complexe
 */
 template <typename T>
-bool isInSet(std::complex<T> nb, unsigned int iter = 30) {
+bool isInSet(std::complex<T> nb, unsigned int iter) {
 	if (nb.real() < (T)-2 || nb.real() >(T)1 || nb.imag() < (T)-1 || nb.imag() >(T)1) {
 		return false;
 	}
 	return std::abs(Mandelbrot_n(iter, nb)) <= T(2);
 }
+
+
+
+/*
+Indique si le nombre calculé par la suite de Mandelbrot est dans l'ensemble
+T : sous-type de complexe
+*/
+template <typename T>
+bool isInSet(std::complex<T> nb) {
+	if (nb.real() < (T)-2 || nb.real() >(T)1 || nb.imag() < (T)-1 || nb.imag() >(T)1) {
+		return false;
+	}
+	return std::abs(nb) <= T(2);
+}
+
 
 
 /*
@@ -37,7 +52,7 @@ T : type de complexe
 template <typename T>
 T Mandelbrot_n(unsigned int n, T point) {
 	if (n == 0) {
-		return 0;
+		return (T)0;
 	}
 	T prec = Mandelbrot_n(n - 1, point);
 	return nextOfMandelbrotSequence(prec, point);

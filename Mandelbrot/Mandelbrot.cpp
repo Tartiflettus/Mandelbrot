@@ -8,7 +8,7 @@
 
 int main()
 {
-	MandelbrotSet set(1024, 10);
+	MandelbrotSet set(1024, 1000);
 	sf::RenderWindow window(sf::VideoMode(1024, 768), "Mandelbrot");
 
 	while (window.isOpen())

@@ -37,7 +37,7 @@ public:
 	void resize(unsigned int w, unsigned int h) {
 		m_valid = false;
 		m_cont.resize(w);
-		for (int i = 0; i < w; ++i) {
+		for (unsigned int i = 0; i < w; ++i) {
 			m_cont[i].resize(h);
 		}
 	}
