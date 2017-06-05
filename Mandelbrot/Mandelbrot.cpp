@@ -7,9 +7,11 @@
 #include "GraphicCounter.h"
 #include <iostream>
 
+#include "Parallel.h"
+
 int main()
 {
-	MandelbrotSet<float> set(1024, 0);
+	/*MandelbrotSet<float> set(1024, 0);
 	GraphicCounter cnt;
 	cnt.setPosition(0, 0);
 	sf::RenderWindow window(sf::VideoMode(1024, 768), "Mandelbrot");
@@ -46,7 +48,7 @@ int main()
 		window.draw(cnt);
 		window.display();
 		sf::sleep(sf::milliseconds(50));
-	}
+	}*/
 
 	using stype = float;
 	using type = std::complex<stype>;
@@ -65,9 +67,20 @@ int main()
 	//test physicalToMath
 	assert(physicalToMath(std::complex<float>(1, 1), 2, 2) == -0.5f);
 
+	//test du module de parallelisation
+	constexpr size_t N = (1 << 24) + 1;
+	auto t = std::make_unique<bool[]>(N);
+	std::fill(t.get(), t.get()+N, false);
+	parallelFor(0, N, [&t](int i) {
+		t[i] = true;
+	});
+	for (int i = 0; i < N; ++i) {
+		assert(t[i]);
+	}
 
-	//std::cout << "OK\n";
-	//getchar();
+
+	std::cout << "OK\n";
+	getchar();
 	return 0;
 }
 
