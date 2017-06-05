@@ -11,7 +11,7 @@
 
 int main()
 {
-	/*MandelbrotSet<float> set(1024, 0);
+	MandelbrotSet<float> set(1024, 0);
 	GraphicCounter cnt;
 	cnt.setPosition(0, 0);
 	sf::RenderWindow window(sf::VideoMode(1024, 768), "Mandelbrot");
@@ -48,7 +48,7 @@ int main()
 		window.draw(cnt);
 		window.display();
 		sf::sleep(sf::milliseconds(50));
-	}*/
+	}
 
 	using stype = float;
 	using type = std::complex<stype>;

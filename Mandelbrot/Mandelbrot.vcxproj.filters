@@ -36,6 +36,9 @@
     <ClInclude Include="GraphicCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ParalMandelbrotSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

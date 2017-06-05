@@ -12,26 +12,36 @@ T : sous-type de complexe
 template <typename T>
 class MandelbrotSet : public sf::Drawable
 {
-private:
+protected:
 	sf::Image m_img;
+	MandelbrotCache<T> m_cache;
+
+private:
 	sf::Texture m_tex;
 	sf::Sprite m_sprite;
 
 	int m_w;
 	int m_h;
 	unsigned int m_lastIter;
-	MandelbrotCache<T> m_cache;
 
 	bool computeIter(unsigned int from, unsigned int to, std::complex<T>& point, const std::complex<T>& origin);
 
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+	/*
+	Effectue le calcul des points de l'ensemble
+	virtual pour choisir mode de calcul
+	*/
+	virtual void doCompute(unsigned int iter);
+
 public:
 	MandelbrotSet(unsigned int w, unsigned int iter);
-	~MandelbrotSet();
+	virtual ~MandelbrotSet();
 
-	//calcule l'image à afficher
+	/*
+	Calcule l'image à afficher
+	*/
 	void compute(unsigned int iter);
 
 	//choisit la dimension de l'image créée
@@ -41,9 +51,7 @@ public:
 	void nextIteration(int offset = 1);
 
 	//renvoie la dernière itération affichée
-	unsigned int getLastIteration() const {
-		return m_lastIter;
-	}
+	unsigned int getLastIteration() const;
 };
 
 
@@ -87,24 +95,10 @@ template <typename T>
 void MandelbrotSet<T>::compute(unsigned int iter)
 {
 	m_img.create(m_w, m_h, sf::Color::White);
-	for (int i = 0; i < m_w; ++i) {
-		for (int j = 0; j < m_h; ++j) {
-			std::complex<T> origin = physicalToMath(std::complex<T>(T(i), T(j)), m_w, m_h);
-			std::complex<T> p = 0;
-			bool ok;
-			if (m_cache.getIter() <= iter) { //cache utilisable
-				p = m_cache(i, j);
-				ok = computeIter(m_cache.getIter(), iter, p, origin);
-			}
-			else { //cache non utilisable
-				ok = computeIter(0, iter, p, origin);
-			}
-			m_cache(i, j) = p;
-			if (ok) {
-				m_img.setPixel(i, j, sf::Color::Black);
-			}
-		}
-	}
+
+	//appel virtuel
+	doCompute(iter);
+
 	m_cache.setIter(iter); //maj de l'itération en cache
 	m_lastIter = iter;
 
@@ -128,4 +122,31 @@ template <typename T>
 void MandelbrotSet<T>::nextIteration(int offset)
 {
 	compute(m_lastIter + offset);
+}
+
+template <typename T>
+unsigned int MandelbrotSet<T>::getLastIteration() const {
+	return m_lastIter;
+}
+
+template <typename T>
+void MandelbrotSet<T>::doCompute(unsigned int iter) {
+	for (int i = 0; i < m_w; ++i) {
+		for (int j = 0; j < m_h; ++j) {
+			std::complex<T> origin = physicalToMath(std::complex<T>(T(i), T(j)), m_w, m_h);
+			std::complex<T> p = 0;
+			bool ok;
+			if (m_cache.getIter() <= iter) { //cache utilisable
+				p = m_cache(i, j);
+				ok = computeIter(m_cache.getIter(), iter, p, origin);
+			}
+			else { //cache non utilisable
+				ok = computeIter(0, iter, p, origin);
+			}
+			m_cache(i, j) = p;
+			if (ok) {
+				m_img.setPixel(i, j, sf::Color::Black);
+			}
+		}
+	}
 }
