@@ -44,12 +44,6 @@
     <ClCompile Include="Mandelbrot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MandelbrotSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MandelbrotCache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -46,11 +46,6 @@ public:
 	}
 };
 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////
-
-
 template <typename T>
 bool MandelbrotSet<T>::computeIter(unsigned int from, unsigned int to, std::complex<T>& point, const std::complex<T> &origin) {
 	if (from >= to) {
@@ -89,8 +84,8 @@ void MandelbrotSet<T>::compute(unsigned int iter)
 	m_img.create(m_w, m_h, sf::Color::White);
 	for (int i = 0; i < m_w; ++i) {
 		for (int j = 0; j < m_h; ++j) {
-			std::complex<T> origin = physicalToMath(std::complex<T>(T(i), T(j)), m_w, m_h);
-			std::complex<T> p = 0;
+			std::complex<float> origin = physicalToMath(std::complex<float>(float(i), float(j)), m_w, m_h);
+			std::complex<float> p = 0;
 			bool ok;
 			if (m_cache.getIter() <= iter) { //cache utilisable
 				p = m_cache(i, j);

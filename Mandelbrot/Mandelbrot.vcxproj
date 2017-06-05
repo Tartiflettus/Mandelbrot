@@ -161,8 +161,6 @@
   <ItemGroup>
     <ClCompile Include="GraphicCounter.cpp" />
     <ClCompile Include="Mandelbrot.cpp" />
-    <ClCompile Include="MandelbrotCache.cpp" />
-    <ClCompile Include="MandelbrotSet.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
