@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include <SFML/Graphics.hpp>
 #include <cassert>
 #include <complex>
@@ -10,9 +10,18 @@
 #include "Parallel.h"
 #include "ParalMandelbrotSet.h"
 
-int main()
+#include <memory> //pointeurs intelligents
+
+int main(int argc, char **argv)
 {
-	ParalMandelbrotSet<float> set(1024, 0);
+	std::unique_ptr<MandelbrotSet<float>> setPtr;
+	if (argc == 2 && std::string(argv[1]) == "-p") { //parallèle
+		setPtr.reset(new ParalMandelbrotSet<float>(1024, 0));
+	}
+	else {
+		setPtr.reset(new MandelbrotSet<float>(1024, 0)); //normal
+	}
+
 	GraphicCounter cnt;
 	cnt.setPosition(0, 0);
 	sf::RenderWindow window(sf::VideoMode(1024, 768), "Mandelbrot");
@@ -29,23 +38,23 @@ int main()
 			if (event.type == sf::Event::KeyPressed) {
 				switch (event.key.code) {
 					case sf::Keyboard::Up:
-						set.nextIteration();
-						cnt.setCount(set.getLastIteration());
+						setPtr->nextIteration();
+						cnt.setCount(setPtr->getLastIteration());
 						break;
 					case sf::Keyboard::Left:
-						set.nextIteration(50);
-						cnt.setCount(set.getLastIteration());
+						setPtr->nextIteration(50);
+						cnt.setCount(setPtr->getLastIteration());
 						break;
 					case sf::Keyboard::Right:
-						set.nextIteration(set.getLastIteration() * 2);
-						cnt.setCount(set.getLastIteration());
+						setPtr->nextIteration(setPtr->getLastIteration());
+						cnt.setCount(setPtr->getLastIteration());
 						break;
 				}
 			}
 		}
 
 		window.clear();
-		window.draw(set);
+		window.draw(*setPtr);
 		window.draw(cnt);
 		window.display();
 		sf::sleep(sf::milliseconds(50));
