@@ -24,8 +24,6 @@ private:
 	int m_h;
 	unsigned int m_lastIter;
 
-	bool computeIter(unsigned int from, unsigned int to, std::complex<T>& point, const std::complex<T>& origin);
-
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -34,6 +32,8 @@ protected:
 	virtual pour choisir mode de calcul
 	*/
 	virtual void doCompute(unsigned int iter);
+
+	bool computeIter(unsigned int from, unsigned int to, std::complex<T>& point, const std::complex<T>& origin);
 
 public:
 	MandelbrotSet(unsigned int w, unsigned int iter);
@@ -52,6 +52,9 @@ public:
 
 	//renvoie la dernière itération affichée
 	unsigned int getLastIteration() const;
+
+	int getWidth() const;
+	int getHeight() const;
 };
 
 
@@ -149,4 +152,16 @@ void MandelbrotSet<T>::doCompute(unsigned int iter) {
 			}
 		}
 	}
+}
+
+
+template <typename T>
+int MandelbrotSet<T>::getWidth() const {
+	return m_w;
+}
+
+
+template <typename T>
+int MandelbrotSet<T>::getHeight() const {
+	return m_h;
 }

@@ -8,10 +8,11 @@
 #include <iostream>
 
 #include "Parallel.h"
+#include "ParalMandelbrotSet.h"
 
 int main()
 {
-	MandelbrotSet<float> set(1024, 0);
+	ParalMandelbrotSet<float> set(1024, 0);
 	GraphicCounter cnt;
 	cnt.setPosition(0, 0);
 	sf::RenderWindow window(sf::VideoMode(1024, 768), "Mandelbrot");
@@ -78,6 +79,8 @@ int main()
 		assert(t[i]);
 	}
 
+	//test de ParalMandelbrotSet
+	ParalMandelbrotSet<float> testset(1024, 0);
 
 	std::cout << "OK\n";
 	getchar();
