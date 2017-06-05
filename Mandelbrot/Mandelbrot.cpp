@@ -51,7 +51,7 @@ int main()
 		sf::sleep(sf::milliseconds(50));
 	}
 
-	using stype = float;
+	/*using stype = float;
 	using type = std::complex<stype>;
 
 	//test isInSet
@@ -83,7 +83,7 @@ int main()
 	ParalMandelbrotSet<float> testset(1024, 0);
 
 	std::cout << "OK\n";
-	getchar();
+	getchar();*/
 	return 0;
 }
 
