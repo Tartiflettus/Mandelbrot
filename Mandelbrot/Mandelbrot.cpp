@@ -29,8 +29,12 @@ int main()
 						set.nextIteration();
 						cnt.setCount(set.getLastIteration());
 						break;
-					case sf::Keyboard::Right:
+					case sf::Keyboard::Left:
 						set.nextIteration(50);
+						cnt.setCount(set.getLastIteration());
+						break;
+					case sf::Keyboard::Right:
+						set.nextIteration(set.getLastIteration() * 2);
 						cnt.setCount(set.getLastIteration());
 						break;
 				}

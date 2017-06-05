@@ -5,14 +5,14 @@
 #include <iostream> //debug
 
 
-bool MandelbrotSet::computeIter(unsigned int from, unsigned int to, std::complex<float>& point, std::complex<float> origin){
+bool MandelbrotSet::computeIter(unsigned int from, unsigned int to, std::complex<float>& point, const std::complex<float> &origin){
 	if (from >= to) {
 		return isInSet(point);
 	} //from < to
 	point = nextOfMandelbrotSequence(point, origin);
 	if (!isInSet(point)) {
 		return false;
-	} //point peut-être dans ensemble à autre itération
+	} //point peut-être dans ensemble à une autre itération
 	return computeIter(from+1, to, point, origin);
 }
 
@@ -35,8 +35,6 @@ MandelbrotSet::~MandelbrotSet()
 void MandelbrotSet::compute(unsigned int iter)
 {
 	m_img.create(m_w, m_h, sf::Color::White);
-	//std::cout << "iter : " << iter<< std::endl;
-	//std::cout << "cache : " << m_cache.getIter() << std::endl;
 	for (int i = 0; i < m_w; ++i) {
 		for (int j = 0; j < m_h; ++j) {
 			std::complex<float> origin = physicalToMath(std::complex<float>(float(i), float(j)), m_w, m_h);
@@ -45,11 +43,9 @@ void MandelbrotSet::compute(unsigned int iter)
 			if (m_cache.getIter() <= iter) { //cache utilisable
 				p = m_cache(i, j);
 				ok = computeIter(m_cache.getIter(), iter, p, origin);
-				//std::cout << "cache : " << m_cache.getIter() << std::endl;
 			}
 			else { //cache non utilisable
 				ok = computeIter(0, iter, p, origin);
-				//std::cout << "cache miss\n";
 			}
 			m_cache(i, j) = p;
 			if (ok) {

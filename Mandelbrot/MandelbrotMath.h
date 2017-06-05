@@ -9,7 +9,7 @@
 
 
 /*
-Indique si le point est dans l'ensemble
+Indique si le point est dans l'ensemble, au bout de iter itérations
 T : sous-type de complexe
 */
 template <typename T>

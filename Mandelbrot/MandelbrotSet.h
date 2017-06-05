@@ -19,7 +19,7 @@ private:
 	unsigned int m_lastIter;
 	MandelbrotCache<float> m_cache;
 
-	bool computeIter(unsigned int from, unsigned int to, std::complex<float>& point, std::complex<float> origin);
+	bool computeIter(unsigned int from, unsigned int to, std::complex<float>& point, const std::complex<float>& origin);
 
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
