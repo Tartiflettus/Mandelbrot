@@ -5,6 +5,16 @@
 #include <cassert>
 #include <limits>
 
+
+/*
+POD
+*/
+template <typename T>
+struct CacheInfo {
+	std::complex<T> point;
+	unsigned int iter;
+};
+
 /*
 Fournit un cache pour le MandelbrotSet
 En indiquant le nombre d'itérations n, on peut récupérer le n-ième élément de la suite de Mandelbrot
