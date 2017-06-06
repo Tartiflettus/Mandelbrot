@@ -33,7 +33,17 @@ protected:
 	*/
 	virtual void doCompute(unsigned int iter);
 
-	bool computeIter(unsigned int from, unsigned int to, std::complex<T>& point, const std::complex<T>& origin);
+	/*
+	Renvoie l'itération à partir de laquelle le point n'est plus considéré dans l'ensemble
+	*/
+	unsigned int computeIter(unsigned int from, unsigned int to, std::complex<T>& point, const std::complex<T>& origin);
+
+	/*
+	Calcule la couleur correspondant à l'itération, en prenant le dégradé pour base
+	*/
+	static sf::Color iterToColor(unsigned int invertIter, sf::Color start, sf::Color end, unsigned int nbUnit);
+
+	static float autoPlusMinus(float val1, float val2);
 
 public:
 	MandelbrotSet(unsigned int w, unsigned int iter);
@@ -63,16 +73,35 @@ public:
 
 
 template <typename T>
-bool MandelbrotSet<T>::computeIter(unsigned int from, unsigned int to, std::complex<T>& point, const std::complex<T> &origin) {
+unsigned int MandelbrotSet<T>::computeIter(unsigned int from, unsigned int to, std::complex<T>& point, const std::complex<T> &origin) {
 	if (from >= to) {
-		return isInSet(point);
+		//return isInSet(point);
+		return from;
 	} //from < to
 	point = nextOfMandelbrotSequence(point, origin);
 	if (!isInSet(point)) {
-		return false;
+		return from;
 	} //point peut-être dans ensemble à une autre itération
 	return computeIter(from + 1, to, point, origin);
 }
+
+
+template<typename T>
+sf::Color MandelbrotSet<T>::iterToColor(unsigned int invertIter, sf::Color start, sf::Color end, unsigned int nbUnit){
+	sf::Color ans;
+	ans.a = 255;
+	ans.r = start.r + (autoPlusMinus((float)start.r, (float)end.r) / (float)nbUnit) * (float)invertIter;
+	ans.g = start.g + (autoPlusMinus((float)start.g, (float)end.g) / (float)nbUnit) * (float)invertIter;
+	ans.b = start.g + (autoPlusMinus((float)start.b, (float)end.b) / (float)nbUnit) * (float)invertIter;
+	return ans;
+}
+
+template<typename T>
+float MandelbrotSet<T>::autoPlusMinus(float val1, float val2){
+	//return val1 > val2 ? val2 - val1 : val1 - val2;
+	return val2 - val1;
+}
+
 
 template <typename T>
 void MandelbrotSet<T>::draw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -138,17 +167,20 @@ void MandelbrotSet<T>::doCompute(unsigned int iter) {
 		for (int j = 0; j < m_h; ++j) {
 			std::complex<T> origin = physicalToMath(std::complex<T>(T(i), T(j)), m_w, m_h);
 			std::complex<T> p = 0;
-			bool ok;
+			unsigned int stopIter;
 			if (m_cache.getIter() <= iter) { //cache utilisable
 				p = m_cache(i, j);
-				ok = computeIter(m_cache.getIter(), iter, p, origin);
+				stopIter = computeIter(m_cache.getIter(), iter, p, origin);
 			}
 			else { //cache non utilisable
-				ok = computeIter(0, iter, p, origin);
+				stopIter = computeIter(0, iter, p, origin);
 			}
 			m_cache(i, j) = p;
-			if (ok) {
+			if (stopIter == iter) { //in mandelbrot
 				m_img.setPixel(i, j, sf::Color::Black);
+			}
+			else {
+				m_img.setPixel(i, j, iterToColor(iter - stopIter, sf::Color::Blue, sf::Color::Yellow, 50));
 			}
 		}
 	}

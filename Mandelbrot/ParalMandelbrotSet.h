@@ -27,17 +27,20 @@ void ParalMandelbrotSet<T>::doCompute(unsigned int iter) {
 		const int j = index / getWidth();
 		std::complex<T> origin = physicalToMath(std::complex<T>(T(i), T(j)), getWidth(),getHeight());
 		std::complex<T> p = 0;
-		bool ok;
+		unsigned int stopIter;
 		if (m_cache.getIter() <= iter) { //cache utilisable
 			p = m_cache(i, j);
-			ok = computeIter(m_cache.getIter(), iter, p, origin);
+			stopIter = computeIter(m_cache.getIter(), iter, p, origin);
 		}
 		else { //cache non utilisable
-			ok = computeIter(0, iter, p, origin);
+			stopIter = computeIter(0, iter, p, origin);
 		}
 		m_cache(i, j) = p;
-		if (ok) {
+		if (stopIter == iter) {
 			m_img.setPixel(i, j, sf::Color::Black);
+		}
+		else {
+			m_img.setPixel(i, j, iterToColor(iter - stopIter, sf::Color::Blue, sf::Color::Yellow, 50));
 		}
 	});
 }
