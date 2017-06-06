@@ -169,13 +169,14 @@ void MandelbrotSet<T>::doCompute(unsigned int iter) {
 			std::complex<T> p = 0;
 			unsigned int stopIter;
 			if (m_cache.getIter() <= iter) { //cache utilisable
-				p = m_cache(i, j);
+				p = m_cache(i, j).point;
 				stopIter = computeIter(m_cache.getIter(), iter, p, origin);
 			}
 			else { //cache non utilisable
 				stopIter = computeIter(0, iter, p, origin);
 			}
-			m_cache(i, j) = p;
+			m_cache(i, j).point = p;
+			m_cache(i, j).iter = stopIter;
 			if (stopIter == iter) { //in mandelbrot
 				m_img.setPixel(i, j, sf::Color::Black);
 			}

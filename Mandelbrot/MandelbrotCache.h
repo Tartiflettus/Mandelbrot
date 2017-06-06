@@ -10,7 +10,7 @@
 POD
 */
 template <typename T>
-struct CacheInfo {
+struct _CacheInfo {
 	std::complex<T> point;
 	unsigned int iter;
 };
@@ -23,16 +23,28 @@ T : sous-type de complexe
 template <typename T>
 class MandelbrotCache
 {
-	using Container = std::vector<std::vector<std::complex<T>>>;
+	using CacheInfo = _CacheInfo<T>;
+	using Container = std::vector<std::vector<CacheInfo>>;
 private:
 	Container m_cont;
-	bool m_valid;
 	unsigned int m_iter;
+	#ifndef NDEBUG
+	bool m_valid;
+	#endif // !NDEBUG
+
 
 public:
-	MandelbrotCache() : m_valid(false), m_iter(std::numeric_limits<unsigned int>::max()) {}
+	MandelbrotCache() : 
+	#ifndef NDEBUG
+		m_valid(false),
+	#endif // !NDEBUG
+		m_iter(std::numeric_limits<unsigned int>::max()) {}
 
-	MandelbrotCache(unsigned int w, unsigned int h): m_valid(false), m_iter(std::numeric_limits<unsigned int>::max()) {
+	MandelbrotCache(unsigned int w, unsigned int h): 
+		#ifndef NDEBUG
+		m_valid(false),
+		#endif // !NDEBUG
+		m_iter(std::numeric_limits<unsigned int>::max()) {
 		m_cont.resize(w);
 		for (int i = 0; i < w; ++i) {
 			m_cont[i].resize(h);
@@ -46,7 +58,9 @@ public:
 	}
 
 	void resize(unsigned int w, unsigned int h) {
+		#ifndef NDEBUG
 		m_valid = false;
+		#endif // !NDEBUG
 		m_cont.resize(w);
 		for (unsigned int i = 0; i < w; ++i) {
 			m_cont[i].resize(h);
@@ -62,13 +76,15 @@ public:
 	}
 
 
-	const std::complex<T>& operator()(unsigned int x, unsigned int y) const {
+	const CacheInfo& operator()(unsigned int x, unsigned int y) const {
 		assert(m_valid);
 		return m_cont[x][y];
 	}
 
-	std::complex<T>& operator()(unsigned int x, unsigned int y){
+	CacheInfo& operator()(unsigned int x, unsigned int y){
+		#ifndef NDEBUG
 		m_valid = true;
+		#endif // !NDEBUG
 		return m_cont[x][y];
 	}
 };
