@@ -12,6 +12,10 @@
 
 #include <memory> //pointeurs intelligents
 
+
+void main_asserts();
+
+
 int main(int argc, char **argv)
 {
 	std::unique_ptr<MandelbrotSet<float>> setPtr;
@@ -60,7 +64,19 @@ int main(int argc, char **argv)
 		sf::sleep(sf::milliseconds(50));
 	}
 
-	/*using stype = float;
+
+	#ifndef NDEBUG
+		main_asserts();
+	#endif // !NDEBUG
+
+
+	return 0;
+}
+
+
+void main_asserts() {
+	assert(false);
+	using stype = float;
 	using type = std::complex<stype>;
 
 	//test isInSet
@@ -82,17 +98,16 @@ int main(int argc, char **argv)
 	auto t = std::make_unique<bool[]>(N);
 	std::fill(t.get(), t.get()+N, false);
 	parallelFor(0, N, [&t](int i) {
-		t[i] = true;
+	t[i] = true;
 	});
 	for (int i = 0; i < N; ++i) {
-		assert(t[i]);
+	assert(t[i]);
 	}
 
 	//test de ParalMandelbrotSet
 	ParalMandelbrotSet<float> testset(1024, 0);
 
 	std::cout << "OK\n";
-	getchar();*/
-	return 0;
+	getchar();
 }
 
