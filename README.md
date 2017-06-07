@@ -15,6 +15,7 @@ C'est l'occasion de commencer à s'approprier ce langage, que j'apprécie bien q
 
 Caractéristiques de l'implémentation:
 - calcul itératif des points dans l'ensemble. Le nombre d'itérations définit la précision.
+- utilisation de nuances de couleur pour indiquer à quel moment les points sont considérés "sortis" de l'ensemble
 - différents types possibles pour la précision des nombres complexes. (Choix à la compilation)
 - possibilité d'utiliser le parallélisme de la machine. (choix au lancement avec "-p")
 
@@ -27,3 +28,6 @@ Ce n'est qu'une démonstration. On peut seulement affiner le résultat.
 
 Lancement:
 Lancer avec l'option "-p" pour utiliser le mode parallèle.
+Lancer avec l'option "-s" sinon.
+
+2e argument (optionnel) : nombre entier positif représentant le nombre de nuances de couleurs.
