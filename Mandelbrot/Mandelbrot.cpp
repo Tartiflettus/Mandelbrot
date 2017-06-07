@@ -75,7 +75,6 @@ int main(int argc, char **argv)
 
 
 void main_asserts() {
-	assert(false);
 	using stype = float;
 	using type = std::complex<stype>;
 

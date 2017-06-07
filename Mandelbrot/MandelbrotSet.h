@@ -90,9 +90,14 @@ template<typename T>
 sf::Color MandelbrotSet<T>::iterToColor(unsigned int invertIter, sf::Color start, sf::Color end, unsigned int nbUnit){
 	sf::Color ans;
 	ans.a = 255;
-	ans.r = start.r + sf::Uint8( (autoPlusMinus((float)start.r, (float)end.r) / (float)nbUnit) * (float)invertIter );
-	ans.g = start.g + sf::Uint8( (autoPlusMinus((float)start.g, (float)end.g) / (float)nbUnit) * (float)invertIter );
-	ans.b = start.g + sf::Uint8( (autoPlusMinus((float)start.b, (float)end.b) / (float)nbUnit) * (float)invertIter );
+	if (invertIter > nbUnit) {
+		ans = end;
+	}
+	else {
+		ans.r = start.r + sf::Uint8((autoPlusMinus((float)start.r, (float)end.r) / (float)nbUnit) * (float)invertIter);
+		ans.g = start.g + sf::Uint8((autoPlusMinus((float)start.g, (float)end.g) / (float)nbUnit) * (float)invertIter);
+		ans.b = start.g + sf::Uint8((autoPlusMinus((float)start.b, (float)end.b) / (float)nbUnit) * (float)invertIter);
+	}
 	return ans;
 }
 
