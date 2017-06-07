@@ -170,7 +170,7 @@ void MandelbrotSet<T>::doCompute(unsigned int iter) {
 			unsigned int stopIter;
 			if (m_cache.getIter() <= iter) { //cache utilisable
 				p = m_cache(i, j).point;
-				stopIter = computeIter(m_cache.getIter(), iter, p, origin);
+				stopIter = computeIter(m_cache(i, j).iter, iter, p, origin);
 			}
 			else { //cache non utilisable
 				stopIter = computeIter(0, iter, p, origin);
