@@ -23,6 +23,7 @@ private:
 	int m_w;
 	int m_h;
 	unsigned int m_lastIter;
+	unsigned m_granularity;
 
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -41,7 +42,7 @@ protected:
 	/*
 	Calcule la couleur correspondant à l'itération, en prenant le dégradé pour base
 	*/
-	static sf::Color iterToColor(unsigned int invertIter, sf::Color start, sf::Color end, unsigned int nbUnit);
+	sf::Color iterToColor(unsigned int invertIter, sf::Color start, sf::Color end);
 
 	static float autoPlusMinus(float val1, float val2);
 
@@ -62,6 +63,8 @@ public:
 
 	//renvoie la dernière itération affichée
 	unsigned int getLastIteration() const;
+
+	void setColorGranularity(unsigned g);
 
 	int getWidth() const;
 	int getHeight() const;
@@ -87,16 +90,16 @@ unsigned int MandelbrotSet<T>::computeIter(unsigned int from, unsigned int to, s
 
 
 template<typename T>
-sf::Color MandelbrotSet<T>::iterToColor(unsigned int invertIter, sf::Color start, sf::Color end, unsigned int nbUnit){
+sf::Color MandelbrotSet<T>::iterToColor(unsigned int invertIter, sf::Color start, sf::Color end){
 	sf::Color ans;
 	ans.a = 255;
-	if (invertIter > nbUnit) {
+	if (invertIter > m_granularity) {
 		ans = end;
 	}
 	else {
-		ans.r = start.r + sf::Uint8((autoPlusMinus((float)start.r, (float)end.r) / (float)nbUnit) * (float)invertIter);
-		ans.g = start.g + sf::Uint8((autoPlusMinus((float)start.g, (float)end.g) / (float)nbUnit) * (float)invertIter);
-		ans.b = start.g + sf::Uint8((autoPlusMinus((float)start.b, (float)end.b) / (float)nbUnit) * (float)invertIter);
+		ans.r = start.r + sf::Uint8((autoPlusMinus((float)start.r, (float)end.r) / (float)m_granularity) * (float)invertIter);
+		ans.g = start.g + sf::Uint8((autoPlusMinus((float)start.g, (float)end.g) / (float)m_granularity) * (float)invertIter);
+		ans.b = start.g + sf::Uint8((autoPlusMinus((float)start.b, (float)end.b) / (float)m_granularity) * (float)invertIter);
 	}
 	return ans;
 }
@@ -186,10 +189,16 @@ void MandelbrotSet<T>::doCompute(unsigned int iter) {
 				m_img.setPixel(i, j, sf::Color::Black);
 			}
 			else {
-				m_img.setPixel(i, j, iterToColor(iter - stopIter, sf::Color::Blue, sf::Color::Yellow, 50));
+				m_img.setPixel(i, j, iterToColor(iter - stopIter, sf::Color::Blue, sf::Color::Yellow));
 			}
 		}
 	}
+}
+
+
+template<typename T>
+void MandelbrotSet<T>::setColorGranularity(unsigned g){
+	m_granularity = g;
 }
 
 

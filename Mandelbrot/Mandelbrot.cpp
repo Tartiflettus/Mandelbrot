@@ -19,11 +19,15 @@ void main_asserts();
 int main(int argc, char **argv)
 {
 	std::unique_ptr<MandelbrotSet<float>> setPtr;
-	if (argc == 2 && std::string(argv[1]) == "-p") { //parallèle
+	if (argc >= 2 && std::string(argv[1]) == "-p") { //parallèle
 		setPtr.reset(new ParalMandelbrotSet<float>(1024, 0));
 	}
 	else {
 		setPtr.reset(new MandelbrotSet<float>(1024, 0)); //normal
+	}
+	setPtr->setColorGranularity(50);
+	if (argc >= 3) {
+		setPtr->setColorGranularity(std::stoul(argv[2]));
 	}
 
 	GraphicCounter cnt;

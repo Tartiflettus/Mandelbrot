@@ -41,7 +41,7 @@ void ParalMandelbrotSet<T>::doCompute(unsigned int iter) {
 			m_img.setPixel(i, j, sf::Color::Black);
 		}
 		else {
-			m_img.setPixel(i, j, iterToColor(iter - stopIter, sf::Color::Blue, sf::Color::Yellow, 50));
+			m_img.setPixel(i, j, iterToColor(iter - stopIter, sf::Color::Blue, sf::Color::Yellow));
 		}
 	});
 }
